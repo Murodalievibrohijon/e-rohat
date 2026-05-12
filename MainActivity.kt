@@ -7,7 +7,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DirectionsBus
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -75,7 +81,7 @@ fun DocumentScreen(onBack: () -> Unit) {
         Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, null) }
             Text("Роҳхат", fontSize = 20.sp, modifier = Modifier.weight(1f))
-            Icon(Icons.Default.InsertDriveFile, null, tint = Color.Gray)
+            Icon(Icons.Default.Description, null, tint = Color.Gray)
         }
 
         Text(
@@ -90,7 +96,7 @@ fun DocumentScreen(onBack: () -> Unit) {
                 "Нишондоди суръатнигор" to "1250",
                 "Рамзи роҳхат" to "1351388",
                 "Корхона" to "Эко Такси",
-                "Суроғаи корхона" to "шаҳри Душанбе",
+                "Суроғаи корхона" to "шаҳри Душанбе ноҳияи Фирдавсӣ",
                 "Шакли моликият" to "Шахсӣ",
                 "Рақ. таб." to "7062",
                 "Рақами давлатии автомобил" to "7062TT10",
@@ -111,9 +117,9 @@ fun DocumentScreen(onBack: () -> Unit) {
 
 @Composable
 fun CustomBottomBar() {
-    NavigationBar(containerColor = Color.White, toneElevation = 8.dp) {
+    NavigationBar(containerColor = Color.White) {
         NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null, tint = Color(0xFF4CAF50)) }, label = { Text("Асосӣ", color = Color(0xFF4CAF50)) })
         NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("QR-и ман") })
-        NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Assignment, null) }, label = { Text("Шаҳодатнома") })
+        NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Description, null) }, label = { Text("Шаҳодатнома") })
     }
 }
