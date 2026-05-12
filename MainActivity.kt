@@ -6,14 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DirectionsBus
-import androidx.compose.material.icons.filled.DirectionsCar
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.QrCode
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -46,7 +38,7 @@ fun MainGridScreen(onOpen: () -> Unit) {
     Column(Modifier.fillMaxSize().background(Color.White)) {
         Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("Роҳхат ва борхати электронӣ", fontSize = 18.sp, color = Color.Gray, modifier = Modifier.weight(1f))
-            Icon(Icons.Default.Person, null, tint = Color.LightGray)
+            Text("👤", fontSize = 24.sp)
         }
         Spacer(Modifier.height(80.dp))
         Text("Роҳхатҳо", Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 16.sp)
@@ -63,7 +55,7 @@ fun MainGridScreen(onOpen: () -> Unit) {
                             shape = RoundedCornerShape(8.dp)
                         ) {
                             Column(Modifier.padding(12.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(Icons.Default.DirectionsCar, null, tint = Color(0xFF4CAF50), modifier = Modifier.size(28.dp))
+                                Text("🚗", fontSize = 28.sp)
                                 Spacer(Modifier.height(8.dp))
                                 Text(name, fontSize = 11.sp, color = Color.Black)
                             }
@@ -79,9 +71,9 @@ fun MainGridScreen(onOpen: () -> Unit) {
 fun DocumentScreen(onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().background(Color.White).verticalScroll(rememberScrollState())) {
         Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, null) }
+            TextButton(onClick = onBack) { Text("⬅ Назад", color = Color.Black) }
             Text("Роҳхат", fontSize = 20.sp, modifier = Modifier.weight(1f))
-            Icon(Icons.Default.Description, null, tint = Color.Gray)
+            Text("📄", fontSize = 24.sp)
         }
 
         Text(
@@ -117,9 +109,9 @@ fun DocumentScreen(onBack: () -> Unit) {
 
 @Composable
 fun CustomBottomBar() {
-    NavigationBar(containerColor = Color.White) {
-        NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null, tint = Color(0xFF4CAF50)) }, label = { Text("Асосӣ", color = Color(0xFF4CAF50)) })
-        NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.QrCode, null) }, label = { Text("QR-и ман") })
-        NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Description, null) }, label = { Text("Шаҳодатнома") })
+    Row(Modifier.fillMaxWidth().background(Color.White).padding(10.dp), horizontalArrangement = Arrangement.SpaceAround) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) { Text("🏠", fontSize = 20.sp); Text("Асосӣ", fontSize = 10.sp, color = Color(0xFF4CAF50)) }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) { Text("🔳", fontSize = 20.sp); Text("QR-и ман", fontSize = 10.sp) }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) { Text("📝", fontSize = 20.sp); Text("Шаҳодатнома", fontSize = 10.sp) }
     }
 }
