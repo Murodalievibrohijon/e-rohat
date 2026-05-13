@@ -1,4 +1,4 @@
-package com.e_rohat.app
+package com.erohat.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,8 +23,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             var screen by remember { mutableStateOf("login") }
-            
-            // Все данные теперь здесь - их можно менять в приложении
             var docNum by remember { mutableStateOf("1351388") }
             var company by remember { mutableStateOf("Эко Такси") }
             var address by remember { mutableStateOf("шаҳри Душанбе ноҳияи Фирдавсӣ") }
@@ -59,7 +57,7 @@ class MainActivity : ComponentActivity() {
 fun LoginScreen(onSuccess: () -> Unit) {
     var code by remember { mutableStateOf("") }
     var error by remember { mutableStateOf(false) }
-    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp), Arrangement.Center, Alignment.CenterHorizontally) {
+    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         Text("Системаи «e-Роҳхат»", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
         Spacer(Modifier.height(30.dp))
         OutlinedTextField(value = code, onValueChange = { if(it.length <= 4) code = it }, label = { Text("Рамз (0000)") }, visualTransformation = PasswordVisualTransformation())
@@ -74,7 +72,6 @@ fun SettingsScreen(d: String, c: String, a: String, m: String, p: String, n: Str
     var td by remember { mutableStateOf(d) }; var tc by remember { mutableStateOf(c) }
     var ta by remember { mutableStateOf(a) }; var tm by remember { mutableStateOf(m) }
     var tp by remember { mutableStateOf(p) }; var tn by remember { mutableStateOf(n) }
-
     Column(Modifier.fillMaxSize().background(Color.White).padding(16.dp).verticalScroll(rememberScrollState())) {
         Text("Тағйири маълумот", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(15.dp))
@@ -86,7 +83,7 @@ fun SettingsScreen(d: String, c: String, a: String, m: String, p: String, n: Str
         OutlinedTextField(value = tn, onValueChange = { tn = it }, label = { Text("Номи ронанда") }, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(20.dp))
         Button(onClick = { onSave(td, tc, ta, tm, tp, tn) }, Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))) { Text("САБТ") }
-        TextButton(onClick = onBack, Modifier.fillMaxWidth()) { Text("БА ПАҚ") }
+        TextButton(onClick = onBack, Modifier.fillMaxWidth()) { Text("БА ПАҚ", color = Color.Gray) }
     }
 }
 
@@ -103,7 +100,7 @@ fun MainGridScreen(onOpen: () -> Unit, onSettings: () -> Unit) {
                 Row(Modifier.fillMaxWidth()) {
                     row.forEach { name ->
                         Card(Modifier.weight(1f).padding(4.dp).clickable { if(name == "Сабукрав") onOpen() }, colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F8F9))) {
-                            Column(Modifier.padding(15.dp).fillMaxWidth(), Alignment.CenterHorizontally) {
+                            Column(Modifier.padding(15.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(if(name.contains("бус")) "🚌" else "🚗", fontSize = 30.sp)
                                 Text(name, fontSize = 11.sp)
                             }
@@ -134,8 +131,8 @@ fun DocumentScreen(d: String, c: String, a: String, m: String, p: String, n: Str
 
 @Composable
 fun CustomBottomBar() {
-    Row(Modifier.fillMaxWidth().background(Color.White).padding(10.dp), Arrangement.SpaceAround) {
-        Column(Alignment.CenterHorizontally) { Text("🏠", fontSize = 20.sp); Text("Асосӣ", fontSize = 10.sp, color = Color(0xFF4CAF50)) }
-        Column(Alignment.CenterHorizontally) { Text("🔳", fontSize = 20.sp); Text("QR-код", fontSize = 10.sp) }
+    Row(Modifier.fillMaxWidth().background(Color.White).padding(10.dp), horizontalArrangement = Arrangement.SpaceAround) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) { Text("🏠", fontSize = 20.sp); Text("Асосӣ", fontSize = 10.sp, color = Color(0xFF4CAF50)) }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) { Text("🔳", fontSize = 20.sp); Text("QR-код", fontSize = 10.sp) }
     }
 }
