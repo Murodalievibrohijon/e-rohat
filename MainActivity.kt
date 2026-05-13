@@ -36,9 +36,8 @@ class MainActivity : ComponentActivity() {
 
             when (screen) {
                 "settings" -> SettingsScreen(
-                    d = docNum, c = company, a = address,
-                    p = plate, r = raqTab, dr = driver,
-                    s = speedo, ot = outTime,
+                    d = docNum, c = company, a = address, p = plate,
+                    r = raqTab, dr = driver, s = speedo, ot = outTime,
                     onSave = { d, c, a, p, r, dr, s, ot ->
                         docNum = d; company = c; address = a; plate = p
                         raqTab = r; driver = dr; speedo = s; outTime = ot
@@ -46,7 +45,6 @@ class MainActivity : ComponentActivity() {
                     },
                     onBack = { screen = "main" }
                 )
-
                 "main" -> Scaffold(
                     bottomBar = { CustomBottomBar() }
                 ) { p ->
@@ -57,11 +55,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-
-                "doc" -> DocumentScreen(
-                    docNum, company, address, plate,
-                    raqTab, driver, speedo, outTime
-                ) { screen = "main" }
+                "doc" -> DocumentScreen(docNum, company, address, plate, raqTab, driver, speedo, outTime) {
+                    screen = "main"
+                }
             }
         }
     }
@@ -70,30 +66,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainGridScreen(onOpen: () -> Unit, onSettings: () -> Unit) {
     Column(Modifier.fillMaxSize().background(Color.White)) {
-        Row(
-            Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("Роҳхат ва борхати электронӣ", fontSize = 17.sp, color = Color.Gray, modifier = Modifier.weight(1f))
             IconButton(onClick = onSettings) {
                 Icon(Icons.Default.Person, null, tint = Color.LightGray)
             }
         }
-
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Роҳхатҳо", fontSize = 16.sp, color = Color.Black, modifier = Modifier.padding(bottom = 24.dp))
-                val menuItems = listOf(
+                val menu = listOf(
                     listOf("Автобус" to Icons.Default.DirectionsBus, "Троллейбус" to Icons.Default.DirectionsBus, "Микроавтобус" to Icons.Default.DirectionsBus),
                     listOf("Сабукрав" to Icons.Default.DirectionsCar, "Шакли 26" to Icons.Default.LocalShipping, "Шакли 566м" to Icons.Default.LocalShipping)
                 )
-                menuItems.forEach { row ->
+                menu.forEach { row ->
                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
                         row.forEach { (name, icon) ->
-                            Column(
-                                Modifier.weight(1f).padding(4.dp).clickable { if (name == "Сабукрав") onOpen() },
-                                Alignment.CenterHorizontally
-                            ) {
+                            Column(Modifier.weight(1f).padding(4.dp).clickable { if (name == "Сабукрав") onOpen() }, Alignment.CenterHorizontally) {
                                 Box(Modifier.size(65.dp).background(Color(0xFFF7F8F9), RoundedCornerShape(10.dp)), Alignment.Center) {
                                     Icon(icon, null, tint = Color(0xFF4CAF50), modifier = Modifier.size(30.dp))
                                 }
@@ -119,8 +108,8 @@ fun DocumentScreen(d: String, c: String, a: String, p: String, r: String, dr: St
             }
             Text("РОҲХАТИ АВТОМОБИЛИ САБУКРАВ № $d\nаз «25» Апрели с.2026 то «24» Майи с.2026", Modifier.padding(16.dp).fillMaxWidth(), FontWeight.Bold, 14.sp, TextAlign.Center, Color.Black)
             Column(Modifier.padding(horizontal = 8.dp).border(0.5.dp, Color.LightGray)) {
-                val fields = listOf("Ҳолати саломатӣ" to "Саломат", "Ҳолати техникӣ" to "Коршоям", "Нишондод" to s, "Рамзи роххат" to d, "Корхона" to c, "Суроға" to a, "Рақ. таб." to r, "Рақами мошин" to p, "Тамға" to "JAC", "Ронанда" to dr, "Баромад" to ot)
-                fields.forEach { (k, v) ->
+                val items = listOf("Ҳолати саломатӣ" to "Саломат", "Ҳолати техникӣ" to "Коршоям", "Нишондод" to s, "Рамзи роҳхат" to d, "Корхона" to c, "Суроға" to a, "Рақ. таб." to r, "Рақами мошин" to p, "Тамға" to "JAC", "Ронанда" to dr, "Баромад" to ot)
+                items.forEach { (k, v) ->
                     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).border(0.2.dp, Color.LightGray)) {
                         Text(k, Modifier.weight(1f).padding(8.dp), 12.sp, Color.Gray)
                         Box(Modifier.width(0.5.dp).fillMaxHeight().background(Color.LightGray))
@@ -129,7 +118,7 @@ fun DocumentScreen(d: String, c: String, a: String, p: String, r: String, dr: St
                 }
             }
         }
-        FloatingActionButton(onClick = {}, Modifier.align(Alignment.BottomEnd).padding(20.dp), Color(0xFF4CAF50), CircleShape) {
+        FloatingActionButton(onClick = {}, Modifier.align(Alignment.BottomEnd).padding(20.dp), containerColor = Color(0xFF4CAF50), shape = CircleShape) {
             Icon(Icons.Default.Refresh, null, tint = Color.White)
         }
     }
@@ -141,11 +130,10 @@ fun SettingsScreen(d: String, c: String, a: String, p: String, r: String, dr: St
     var ta by remember { mutableStateOf(a) }; var tp by remember { mutableStateOf(p) }
     var tr by remember { mutableStateOf(r) }; var tdr by remember { mutableStateOf(dr) }
     var ts by remember { mutableStateOf(s) }; var tot by remember { mutableStateOf(ot) }
-
     Column(Modifier.fillMaxSize().background(Color.White).padding(16.dp).verticalScroll(rememberScrollState())) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onBack) { Icon(Icons.Default.Close, null) }
-            Text("Танзимот", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text("Танзимот", 20.sp, FontWeight.Bold)
         }
         OutlinedTextField(td, { td = it }, label = { Text("Рақами роҳхат") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(tc, { tc = it }, label = { Text("Корхона") }, modifier = Modifier.fillMaxWidth())
@@ -155,7 +143,6 @@ fun SettingsScreen(d: String, c: String, a: String, p: String, r: String, dr: St
         OutlinedTextField(tdr, { tdr = it }, label = { Text("Ронанда") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(ts, { ts = it }, label = { Text("Суръатнигор") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(tot, { tot = it }, label = { Text("Баромад") }, modifier = Modifier.fillMaxWidth())
-
         Button(onClick = { onSave(td, tc, ta, tp, tr, tdr, ts, tot) }, Modifier.fillMaxWidth().padding(top = 16.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))) {
             Text("САБТ КАРДАН")
         }
