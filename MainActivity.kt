@@ -1,4 +1,4 @@
-package com.e_rohat.app
+package com.erohat.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,7 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var screen by remember { mutableStateOf("main") }
             
-            // Настройки всех данных (Чётко как в оригинале)
+            // Данные, которые можно менять в настройках
             var docNum by remember { mutableStateOf("1351388") }
             var company by remember { mutableStateOf("ЧДММ Олуча авто") }
             var address by remember { mutableStateOf("шахри Душанбе нохияи Фирдавси") }
@@ -67,31 +66,26 @@ fun MainGridScreen(onOpen: () -> Unit, onSettings: () -> Unit) {
             IconButton(onClick = onSettings) { Icon(Icons.Default.Person, null, tint = Color.LightGray) }
         }
 
-        // Центрируем блок с иконками ровно по середине экрана
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Роҳхатҳо", fontSize = 16.sp, color = Color.Black, modifier = Modifier.padding(bottom = 24.dp))
                 
-                val menu = listOf(
-                    Triple("Автобус", Icons.Default.DirectionsBus, "bus"),
-                    Triple("Троллейбус", Icons.Default.ElectricBus, "trolley"),
-                    Triple("Микроавтобус", Icons.Default.DepartureBoard, "micro"),
-                    Triple("Сабукрав", Icons.Default.DirectionsCar, "car"),
-                    Triple("Шакли 26", Icons.Default.LocalFireDepartment, "truck"),
-                    Triple("Шакли 566м", Icons.Default.Handyman, "truck2")
-                )
-
+                val menu = listOf("Автобус", "Троллейбус", "Микроавтобус", "Сабукрав", "Шакли 26", "Шакли 566м")
                 Column(Modifier.padding(horizontal = 10.dp)) {
                     menu.chunked(3).forEach { row ->
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                            row.forEach { (name, icon, _) ->
+                            row.forEach { name ->
                                 Column(
                                     Modifier.weight(1f).padding(6.dp).clickable { if(name == "Сабукрав") onOpen() },
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Box(Modifier.size(65.dp).background(Color(0xFFF7F8F9), RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center) {
                                         Icon(
-                                            imageVector = icon,
+                                            imageVector = when {
+                                                name == "Сабукрав" -> Icons.Default.DirectionsCar
+                                                name.contains("бус") -> Icons.Default.DirectionsBus
+                                                else -> Icons.Default.LocalShipping
+                                            },
                                             contentDescription = null,
                                             tint = Color(0xFF4CAF50),
                                             modifier = Modifier.size(32.dp)
@@ -119,10 +113,7 @@ fun DocumentScreen(d: String, c: String, a: String, p: String, r: String, dr: St
                 Icon(Icons.Default.Description, null, tint = Color.Gray)
             }
             
-            Text(
-                "РОҲХАТИ АВТОМОБИЛИ САБУКРАВ № $d\nаз «25» Апрели с.2026 то «24» Майи с.2026",
-                Modifier.padding(16.dp).fillMaxWidth(), fontWeight = FontWeight.Bold, fontSize = 14.sp, textAlign = TextAlign.Center, color = Color.Black
-            )
+            Text("РОҲХАТИ АВТОМОБИЛИ САБУКРАВ № $d\nаз «25» Апрели с.2026 то «24» Майи с.2026", Modifier.padding(16.dp).fillMaxWidth(), fontWeight = FontWeight.Bold, fontSize = 14.sp, textAlign = TextAlign.Center, color = Color.Black)
 
             Column(Modifier.padding(horizontal = 8.dp).border(0.5.dp, Color.LightGray)) {
                 val data = listOf(
@@ -150,8 +141,8 @@ fun DocumentScreen(d: String, c: String, a: String, p: String, r: String, dr: St
                     Text("Рӯзҳои кори", Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 }
                 
-                val workData = listOf("№" to "1", "Сана" to "2026-04-25", "Баромад" to ot, "Даромад" to "", "Суръатнигор баромад" to s)
-                workData.forEach { (k, v) ->
+                val work = listOf("№" to "1", "Сана" to "2026-04-25", "Баромад" to ot, "Даромад" to "", "Суръатнигор баромад" to s)
+                work.forEach { (k, v) ->
                     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).border(0.2.dp, Color.LightGray)) {
                         Text(k, Modifier.weight(1f).padding(8.dp), fontSize = 12.sp, color = Color.Gray)
                         Box(Modifier.width(0.5.dp).fillMaxHeight().background(Color.LightGray))
@@ -179,7 +170,7 @@ fun SettingsScreen(d: String, c: String, a: String, p: String, r: String, dr: St
         Spacer(Modifier.height(10.dp))
         OutlinedTextField(value = td, onValueChange = { td = it }, label = { Text("Рақами роҳхат") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = tc, onValueChange = { tc = it }, label = { Text("Корхона") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = ta, onValueChange = { ta = it }, label = { Text("Суроғаи корхона") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = ta, onValueChange = { ta = it }, label = { Text("Суроға") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = tp, onValueChange = { tp = it }, label = { Text("Рақами мошин") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = tdr, onValueChange = { tdr = it }, label = { Text("Номи ронанда") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = tow, onValueChange = { tow = it }, label = { Text("Шакли моликият") }, modifier = Modifier.fillMaxWidth())
@@ -195,9 +186,9 @@ fun CustomBottomBar() {
     Column {
         Box(Modifier.fillMaxWidth().height(0.5.dp).background(Color.LightGray))
         Row(Modifier.fillMaxWidth().background(Color.White).padding(8.dp), Arrangement.SpaceAround) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Outlined.Home, null, tint = Color(0xFF4CAF50)); Text("Асосӣ", 10.sp, color = Color(0xFF4CAF50)) }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Outlined.QrCodeScanner, null, tint = Color.Gray); Text("QR-и ман", 10.sp, color = Color.Gray) }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Outlined.Article, null, tint = Color.Gray); Text("Шаҳодатнома", 10.sp, color = Color.Gray) }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.Home, null, tint = Color(0xFF4CAF50)); Text("Асосӣ", 10.sp, color = Color(0xFF4CAF50)) }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.QrCode, null, tint = Color.Gray); Text("QR-и ман", 10.sp, color = Color.Gray) }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.Description, null, tint = Color.Gray); Text("Шаҳодатнома", 10.sp, color = Color.Gray) }
         }
     }
 }
